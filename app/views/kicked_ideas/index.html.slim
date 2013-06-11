@@ -1,0 +1,19 @@
+h1 Listing kicked_ideas
+
+table
+  tr
+    th User
+    th
+    th
+    th
+
+  - @kicked_ideas.each do |kicked_idea|
+    tr
+      td = kicked_idea.user_id
+      td = link_to 'Show', kicked_idea
+      td = link_to 'Edit', edit_kicked_idea_path(kicked_idea)
+      td = link_to 'Destroy', kicked_idea, :confirm => 'Are you sure?', :method => :delete
+
+br
+
+= link_to 'New Kicked idea', new_kicked_idea_path
