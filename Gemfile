@@ -1,19 +1,21 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.0.rc1'
+gem 'rails', '4.0.0.rc2'
 
 group :development do
 	gem 'hirb'
 	gem 'rails_best_practices'
 	gem 'thin'
+  gem 'quiet_assets'
 end
 
 group :test do
-  gem "rspec-rails",         '2.10.1'
+  gem "rspec-rails"
   gem "capybara"
   gem "factory_girl_rails", '3.4.0'
   gem "simplecov"
   gem "database_cleaner"
+  gem "shoulda-matchers"
 end
 
 gem 'sqlite3'

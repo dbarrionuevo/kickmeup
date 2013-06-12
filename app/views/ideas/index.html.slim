@@ -8,8 +8,6 @@ table
     th Title
     th Description
     th
-    th
-    th
 
   - @ideas.each do |idea|
     tr
@@ -17,9 +15,6 @@ table
       td = link_to idea.title, idea
       td = idea.description
       -if current_user
-        -if idea.user_id == current_user.uid.to_i
-          td = link_to 'Edit', edit_idea_path(idea)
-          td = link_to 'Destroy', idea, data: { confirm: 'Are you sure?' }, :method => :delete
         td = link_to 'Kick this up!', kickup_idea_path(idea)
 
 br

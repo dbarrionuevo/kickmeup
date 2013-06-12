@@ -36,13 +36,18 @@ class IdeasController < ApplicationController
 
   def destroy
     idea.destroy
-    redirect_to ideas_url
+    redirect_to root_path, notice: "Idea was successfully destroyed."
   end
 
   def kickup
     set_user_kicked
-    idea.kickup
-    if idea.save
+
+    if idea.already_kicked_by_user?
+      redirect_to root_path, notice: 'You already kicked this idea'
+      return
+    end
+    
+    if idea.kickup.save
       redirect_to root_path, notice: 'Idea was successfully kicked up'
     else
       redirect_to root_path, alert: idea.errors.full_messages
@@ -50,7 +55,6 @@ class IdeasController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def idea
       @idea ||= Idea.find(params[:id])
     end
@@ -59,7 +63,6 @@ class IdeasController < ApplicationController
       idea.user_kicked = current_user
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def idea_params
       params.require(:idea).permit(:user_id, :title, :description)
     end

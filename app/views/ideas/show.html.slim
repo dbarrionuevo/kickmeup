@@ -1,5 +1,3 @@
-p#notice = notice
-
 p
   strong User:
   = @idea.user_id
@@ -10,6 +8,7 @@ p
   strong Description:
   = @idea.description
 
-= link_to 'Edit', edit_idea_path(@idea)
-'|
+-if current_user && @idea.user_id == current_user.uid.to_i
+  = link_to 'Edit ', edit_idea_path(@idea)
+  = link_to 'Destroy ', @idea, method: :delete, data: { confirm: 'Are you sure?' }
 = link_to 'Back', ideas_path
