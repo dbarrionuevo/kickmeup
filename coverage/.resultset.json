@@ -37,13 +37,14 @@
         1,
         0,
         0,
-        0,
-        0,
         null,
-        0,
         0,
         null,
         null,
+        null,
+        1,
+        0,
+        0,
         null,
         null,
         1,
@@ -52,9 +53,15 @@
         0,
         0,
         null,
+        0,
+        null,
         null,
         null,
         1,
+        null,
+        1,
+        1,
+        null,
         null,
         1,
         0,
@@ -73,18 +80,34 @@
         1,
         null,
         1,
-        4,
+        10,
         null,
         1,
         null,
         1,
-        0,
+        1,
         null,
         null
       ],
       "/Users/dario/code/kickmeup/app/models/idea.rb": [
         1,
         1,
+        1,
+        1,
+        null,
+        1,
+        0,
+        0,
+        0,
+        null,
+        null,
+        1,
+        0,
+        null,
+        null,
+        1,
+        0,
+        null,
         null
       ],
       "/Users/dario/code/kickmeup/app/controllers/sessions_controller.rb": [
@@ -95,12 +118,46 @@
         null,
         null,
         1,
-        1,
-        1,
+        0,
+        0,
         null,
         null
       ]
     },
-    "timestamp": 1370966075
+    "timestamp": 1370983090
+  },
+  "RSpec": {
+    "coverage": {
+      "/Users/dario/code/kickmeup/app/helpers/application_helper.rb": [
+        1,
+        null
+      ],
+      "/Users/dario/code/kickmeup/app/models/idea.rb": [
+        1,
+        1,
+        1,
+        1,
+        null,
+        1,
+        2,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null,
+        1,
+        2,
+        null,
+        null
+      ],
+      "/Users/dario/code/kickmeup/app/models/kicked_idea.rb": [
+        1,
+        null
+      ]
+    },
+    "timestamp": 1370981182
   }
 }

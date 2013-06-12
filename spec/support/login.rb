@@ -1,5 +1,4 @@
 shared_context 'facebook login' do
-	let(:email) { 'jdoe@kickmeup.com' }
 	background { visit root_path }
 
 	def login( valid=true )

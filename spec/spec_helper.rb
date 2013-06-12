@@ -10,6 +10,8 @@ require 'capybara/rspec'
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+OmniAuth.config.test_mode = true
+
 RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
@@ -31,13 +33,17 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = true
   config.include Rails.application.routes.url_helpers
 
-  OmniAuth.config.test_mode = true
 end
 
 def load_facebook_auth_data( valid = true )
-  OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new({
-    :provider => 'facebook',
-    :uid => '123456',
-    info: { email: valid ? email : '' }
-    })
+    OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new({
+      :provider => 'facebook',
+      :uid => '123456',
+      info: { email: valid ? 'jdoe@kickmeup.com' : '' }
+      })
+end
+
+def current_user
+  #load_facebook_auth_data
+  OmniAuth.config.mock_auth[:facebook]
 end
