@@ -3,18 +3,27 @@ class Idea < ActiveRecord::Base
   has_many :kicked_ideas
   attr_accessor :user_kicked
 
+  def to_s
+    title
+  end
+
   def kickup
-    return self if !user_kicked || already_kicked_by_user?
-    build_kickup_ideas
-    increment_kickups_count
+    if user_can_kickup?
+      build_kicked_ideas
+      increment_kickups_count
+    end
     self
+  end
+
+  def user_can_kickup?
+    user_kicked && !already_kicked_by_user?
   end
 
   def already_kicked_by_user?
     kicked_ideas.where(user_id: user_kicked.uid).any?
   end
 
-  def build_kickup_ideas
+  def build_kicked_ideas
     kicked_ideas.new(user_id: user_kicked.uid)
   end
 

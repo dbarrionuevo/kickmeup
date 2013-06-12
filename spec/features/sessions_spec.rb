@@ -4,7 +4,8 @@ feature "Facebook login" do
 
 	scenario "successfully sign in with facebook account" do
 		sign_in
-		page.should have_content("Signed in as #{current_user.email}")
+		expect(page).to have_content("Signed in as #{current_user.email}")
+		expect(page).to have_link("Sign out")
 		current_path.should eq root_path
 	end
 
@@ -17,7 +18,7 @@ feature "Facebook login" do
 		sign_in
 		click_link 'Sign out'
 
-		page.should have_content('Sign in')
+		expect(page).to have_content('Sign in')
 		current_path.should eq root_path
 	end
 end

@@ -8,24 +8,28 @@ def given_other_idea
 end
 
 feature "Share an idea" do
-	scenario "logged user can share a new idea" do
-    create_idea(title: 'A kickass idea', description: 'something to describe my idea')
+  context "logged user" do
+  	scenario "can share an idea" do
+      create_idea(title: 'A kickass idea', description: 'something to describe my idea')
 
-    page.should have_content 'Idea was successfully created'
-    page.should have_content 'A kickass idea' # o {idea.title} ??
-    Idea.where(user_id: current_user.uid).should exist
+      expect(page).to have_content 'Idea was successfully created'
+      expect(page).to have_content 'Details of A kickass idea' # o {idea.title} ??
+      Idea.where(user_id: current_user.uid).should exist # corresponde esto en un feature spec??
+    end
+
+    scenario "can't share an idea without valid attributes" do
+      create_idea(title: '', description: '')
+
+      expect(page).to have_content 'errors prohibited this idea from being saved'    
+    end
   end
 
-  scenario "not logged user can\'t share a new idea" do
-    visit new_idea_path
-    page.should have_content 'Please sign in'
-    current_path.should eq root_path
-  end
-
-  scenario "logged user can't create an idea without valid attributes" do
-    create_idea(title: '', description: '')
-
-    page.should have_content 'errors prohibited this idea from being saved'    
+  context "guest user" do
+    scenario "can't share a new idea" do
+      visit new_idea_path
+      expect(page).to have_content 'Please sign in'
+      current_path.should eq root_path
+    end
   end
 end
 
@@ -36,20 +40,20 @@ feature "Modify an idea" do
   scenario "user can modify his own idea" do
     modify_idea(title: 'Another title')
 
-    page.should have_content 'Idea was successfully updated'
+    expect(page).to have_content 'Idea was successfully updated'
   end
 
-  scenario "user can\'t modify his own idea with invalid attributes" do
+  scenario "user can't modify his own idea without valid attributes" do
     modify_idea(title: '')
 
-    page.should have_content 'error prohibited this idea from being saved'
+    expect(page).to have_content 'error prohibited this idea from being saved'
   end
 
   scenario "user can't modify ideas of another user" do
     sign_in
     visit root_path
     click_link "#{other_idea.title}"
-    page.should_not have_link 'Edit'
+    expect(page).to_not have_link 'Edit'
   end
 end
 
@@ -58,7 +62,7 @@ feature "Listing existing ideas" do
 	background {visit root_path}
 	
 	scenario "guest user can list ideas" do
-		page.should have_content "#{idea.title}"
+		expect(page).to have_content "#{idea.title}"
 	end
 
 	scenario "guest user can view ideas" do
@@ -70,22 +74,22 @@ end
 feature "Kicking up an Idea" do
   given_idea
 
-  scenario "logged user can kickup only once an idea" do
+  scenario "logged user can kickup an idea only once" do
     sign_in
     click_link 'Kick this up!'
 
-    page.should have_content 'Idea was successfully kicked up'
+    expect(page).to have_content 'Idea was successfully kicked up'
     idea.reload.kickups.should eq 1
     current_user_kicked_ideas.should include(idea)
 
     click_link 'Kick this up!'
 
-    page.should have_content 'You already kicked this idea'
+    expect(page).to have_content 'You already kicked this idea'
     idea.reload.kickups.should eq 1
   end
 
   scenario "guest user can't kickup idea" do
-    page.should_not have_link 'Kick this up!'
+    expect(page).to_not have_link 'Kick this up!'
   end
 end
 
@@ -98,7 +102,7 @@ feature "Destroy an idea" do
     click_link "#{idea.title}"
     click_link "Destroy"
     
-    page.should have_content "Idea was successfully destroyed."    
+    expect(page).to have_content "Idea was successfully destroyed."    
     current_path.should eq root_path
   end
 end
