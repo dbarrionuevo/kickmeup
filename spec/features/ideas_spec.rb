@@ -10,24 +10,36 @@ end
 feature "Share an idea" do
   context "logged user" do
   	scenario "can share an idea" do
-      create_idea(title: 'A kickass idea', description: 'something to describe my idea')
+      sign_in
+      visit new_idea_path
+
+      fill_in 'idea[title]',       with: "A kickass idea"
+      fill_in 'idea[description]', with: "Something to describe my idea properly"
+      click_button 'Post my idea'
 
       expect(page).to have_content 'Idea was successfully created'
-      expect(page).to have_content 'Details of A kickass idea' # o {idea.title} ??
-      Idea.where(user_id: current_user.uid).should exist # corresponde esto en un feature spec??
+      expect(page).to have_content 'Details of A kickass idea'
+      expect( Idea.where(user_id: current_user.uid) ).to exist
     end
 
     scenario "can't share an idea without valid attributes" do
-      create_idea(title: '', description: '')
+      sign_in
+      visit new_idea_path
 
-      expect(page).to have_content 'errors prohibited this idea from being saved'    
+      click_button 'Post my idea'
+
+      expect(page).to have_selector("li", text: "Title can't be blank")
+      expect(page).to have_selector("li", text: "Description can't be blank")
+      expect(Idea.count).to be_zero
     end
   end
 
   context "guest user" do
     scenario "can't share a new idea" do
       visit new_idea_path
+
       expect(page).to have_content 'Please sign in'
+
       current_path.should eq root_path
     end
   end
@@ -38,28 +50,46 @@ feature "Modify an idea" do
   given_other_idea
 
   scenario "user can modify his own idea" do
-    modify_idea(title: 'Another title')
+    sign_in
+    visit root_path
+
+    click_link "#{idea.title}"
+    click_link 'Edit'
+
+    fill_in 'idea[title]', with: "something new"
+    click_button 'Post my idea'
 
     expect(page).to have_content 'Idea was successfully updated'
+    expect(Idea.first.title).to eql("something new")
   end
 
   scenario "user can't modify his own idea without valid attributes" do
-    modify_idea(title: '')
+    sign_in
+    visit root_path
 
-    expect(page).to have_content 'error prohibited this idea from being saved'
+    click_link "#{idea.title}"
+    click_link 'Edit'
+
+    fill_in 'idea[title]', with: ""
+    click_button 'Post my idea'
+
+    expect(page).to have_selector("li", text: "Title can't be blank")
+    expect(Idea.first.title).to_not eql("")
   end
 
   scenario "user can't modify ideas of another user" do
     sign_in
     visit root_path
+
     click_link "#{other_idea.title}"
+
     expect(page).to_not have_link 'Edit'
   end
 end
 
 feature "Listing existing ideas" do
 	given_idea
-	background {visit root_path}
+	background { visit root_path }
 	
 	scenario "guest user can list ideas" do
 		expect(page).to have_content "#{idea.title}"
@@ -95,14 +125,33 @@ end
 
 feature "Destroy an idea" do
   given_idea
+  given_other_idea
 
-  scenario "user can destroy his own an idea" do
-    sign_in
-    visit root_path
-    click_link "#{idea.title}"
-    click_link "Destroy"
-    
-    expect(page).to have_content "Idea was successfully destroyed."    
-    current_path.should eq root_path
+  context "logged user" do
+    background{ sign_in }
+
+    scenario "can destroy his own an idea" do
+      click_link "#{idea.title}"
+      click_link "Destroy"
+      
+      expect(page).to have_content "Idea was successfully destroyed."    
+      expect(Idea.count).to eq(1)
+    end
+
+    scenario "can't destroy another user idea" do
+      click_link "#{other_idea.title}"
+
+      expect(page).to_not have_link('Delete')
+    end
   end
+
+  context "guest user" do
+    scenario "can't delete ideas" do
+      visit root_path
+      click_link "#{idea.title}"
+
+      expect(page).to_not have_link('Destroy')
+    end
+  end
+
 end
