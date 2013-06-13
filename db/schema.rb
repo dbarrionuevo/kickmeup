@@ -38,11 +38,15 @@ ActiveRecord::Schema.define(version: 20130612200809) do
     t.string   "provider"
     t.string   "uid"
     t.string   "name"
+    t.string   "nickname"
     t.string   "email"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
+    t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "users", ["slug"], name: "index_users_on_slug", unique: true
 
 end

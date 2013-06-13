@@ -41,7 +41,7 @@ def load_facebook_auth_data(valid = true)
   auth              = Hashie::Mash.new
   auth.provider     = user.provider
   auth.uid          = user.uid
-  auth.info         = { email: valid ? user.email : "", name: "Dario Barrionuevo" }
+  auth.info         = { email: valid ? user.email : "", name: "Dario Barrionuevo", nickname: "dbarri" }
   auth.credentials  = { token: "0909090909", expires_at: 1346878866 }
 
   OmniAuth.config.mock_auth[:facebook] = auth

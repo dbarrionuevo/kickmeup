@@ -1,4 +1,5 @@
 Kickmeup::Application.routes.draw do
+  resources :users, only: [:show]
   resources :ideas do
     member do
       get 'kickup'
