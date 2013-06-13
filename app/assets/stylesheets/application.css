@@ -11,3 +11,14 @@
  *= require_self
  *= require_tree .
  */
+
+.content {
+  margin: 10px;
+  padding: 10px;
+  -webkit-transition: 1s;
+  -moz-transition: 1s;
+  -ms-transition: 1s;
+  -o-transition: 1s;
+  transition: 1s;
+  ;
+}

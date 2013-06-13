@@ -1,5 +1,4 @@
 Kickmeup::Application.routes.draw do
-  resources :kicked_ideas
   resources :ideas do
     member do
       get 'kickup'

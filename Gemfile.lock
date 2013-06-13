@@ -199,7 +199,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 4.0.0)
   database_cleaner
-  factory_girl_rails (= 3.4.0)
+  factory_girl_rails
   hirb
   jbuilder (~> 1.0.1)
   jquery-rails
@@ -208,7 +208,7 @@ DEPENDENCIES
   rails (= 4.0.0.rc2)
   rails_best_practices
   rspec-rails
-  sass-rails (~> 4.0.0.rc1)
+  sass-rails
   sdoc
   shoulda-matchers
   simplecov

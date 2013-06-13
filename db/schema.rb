@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130611172416) do
+ActiveRecord::Schema.define(version: 20130612200809) do
+
+  create_table "idea_kickups", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "idea_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "ideas", force: true do |t|
     t.integer  "user_id"
@@ -22,9 +29,13 @@ ActiveRecord::Schema.define(version: 20130611172416) do
     t.integer  "kickups",     default: 0
   end
 
-  create_table "kicked_ideas", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "idea_id"
+  create_table "users", force: true do |t|
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "name"
+    t.string   "email"
+    t.string   "oauth_token"
+    t.datetime "oauth_expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

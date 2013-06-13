@@ -1,6 +1,6 @@
 class Idea < ActiveRecord::Base
 	validates :user_id, :title, :description, presence: true
-  has_many :kicked_ideas
+  has_many :idea_kickups
   attr_accessor :user_kicked
 
   def to_s
@@ -9,7 +9,7 @@ class Idea < ActiveRecord::Base
 
   def kickup
     if user_can_kickup?
-      build_kicked_ideas
+      build_idea_kickups
       increment_kickups_count
     end
     self
@@ -20,11 +20,11 @@ class Idea < ActiveRecord::Base
   end
 
   def already_kicked_by_user?
-    kicked_ideas.where(user_id: user_kicked.uid).any?
+    idea_kickups.where(user_id: user_kicked.uid).any?
   end
 
-  def build_kicked_ideas
-    kicked_ideas.new(user_id: user_kicked.uid)
+  def build_idea_kickups
+    idea_kickups.new(user_id: user_kicked.uid)
   end
 
   def increment_kickups_count

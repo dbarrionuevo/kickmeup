@@ -15,7 +15,7 @@ describe Idea do
   end
 
   describe "Associations" do
-    it { should have_many :kicked_ideas }
+    it { should have_many :idea_kickups }
   end
 
   describe "#kickup" do
@@ -28,12 +28,12 @@ describe Idea do
       it "creates kicked idea once for the user" do
         expect{ 
           idea.save! 
-        }.to change{ idea.kicked_ideas.count }.from(0).to(1)
+        }.to change{ idea.idea_kickups.count }.from(0).to(1)
 
         idea.kickup
         expect{
           idea.save!
-        }.to_not change{ idea.kicked_ideas.count }
+        }.to_not change{ idea.idea_kickups.count }
       end
 
       it "increments kickups count once" do
@@ -77,13 +77,13 @@ describe Idea do
   describe "#build_kicked_idea" do
     before { load_user_kicked }
 
-    it "creates new kicked_ideas record for the idea" do
-      expect(idea.kicked_ideas).to be_empty
+    it "creates new idea_kickups record for the idea" do
+      expect(idea.idea_kickups).to be_empty
 
       expect{ 
-        idea.build_kicked_ideas
+        idea.build_idea_kickups
         idea.save!
-      }.to change{ idea.kicked_ideas.count }.by(1)
+      }.to change{ idea.idea_kickups.count }.by(1)
     end
   end
 end

@@ -1,11 +1,16 @@
 class SessionsController < ApplicationController
   def create
-    session[:auth] = env["omniauth.auth"].slice(:uid, :info)
-    redirect_to root_url, info: 'Successfully logged in!'
+    user = User.from_omniauth(env["omniauth.auth"])
+    if user.save
+      session[:user_id] = user.id
+      redirect_to root_url, notice: "Welcome #{user.name}!"
+    else
+      redirect_to root_url, notice: user.errors.full_messages
+    end
   end
 
   def destroy
-    session[:auth] = nil
+    session[:user_id] = nil
     redirect_to root_url
   end
 end

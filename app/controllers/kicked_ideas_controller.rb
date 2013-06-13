@@ -1,3 +1,0 @@
-class KickedIdeasController < ApplicationController
-
-end
