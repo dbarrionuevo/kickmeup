@@ -3,6 +3,7 @@ class Idea < ActiveRecord::Base
   validates :title, uniqueness: true
 
   has_many :idea_kickups
+  has_many :kicked_by, through: :idea_kickups, source: :user
   belongs_to :user
 
   attr_accessor :user_kicked
@@ -24,7 +25,7 @@ class Idea < ActiveRecord::Base
   end
 
   def already_kicked_by_user?
-    idea_kickups.where(user_id: user_kicked.id).any?
+    kicked_by.include?(user_kicked)
   end
 
   def build_idea_kickups

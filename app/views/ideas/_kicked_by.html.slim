@@ -1,0 +1,11 @@
+- if @idea_kickups.any?
+  h2 This idea was kicked by
+  table
+    thead
+      tr
+        th User
+        th Date
+    tbody
+      = render @idea_kickups
+- else
+  p Be the first to kick up this idea!

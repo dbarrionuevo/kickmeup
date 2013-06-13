@@ -1,4 +1,4 @@
-| Details of #{@idea}
+h2 Details of #{@idea}
 p
   strong User:
   = @idea.user_id
@@ -13,3 +13,5 @@ p
   = link_to 'Edit ', edit_idea_path(@idea)
   = link_to 'Destroy ', @idea, method: :delete, data: { confirm: 'Are you sure?' }
 = link_to 'Back', ideas_path
+
+= render 'kicked_by'

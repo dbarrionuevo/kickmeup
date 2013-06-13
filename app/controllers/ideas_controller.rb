@@ -7,6 +7,7 @@ class IdeasController < ApplicationController
   end
 
   def show
+    @idea_kickups = idea.idea_kickups
   end
 
   def new

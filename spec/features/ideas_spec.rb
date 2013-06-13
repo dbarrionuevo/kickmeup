@@ -146,5 +146,31 @@ feature "Destroy an idea" do
       expect(page).to_not have_link('Destroy')
     end
   end
+end
 
+feature "Listing users that kicked an idea" do
+  given!(:idea) { create(:idea) }
+
+  context "idea was kicked by user" do
+    background {
+      sign_in
+      click_link "Kick this up!"
+    }
+    scenario "shows user that kicked" do
+      visit root_path
+      click_link "#{idea.title}"
+
+      expect(page).to have_content("This idea was kicked by")
+      expect(page).to have_content("#{current_user.to_s}")
+    end
+  end
+
+  context "idea was not kicked by user" do
+    scenario "shows a message" do
+      visit root_path
+      click_link "#{idea.title}"
+
+      expect(page).to have_content "Be the first to kick up this idea!"
+    end
+  end
 end

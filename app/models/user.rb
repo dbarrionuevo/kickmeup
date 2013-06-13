@@ -6,6 +6,10 @@ class User < ActiveRecord::Base
   has_many :kicked_ideas, through: :idea_kickups, source: :idea
   has_many :ideas
 
+  def to_s
+    name
+  end
+
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
       user.provider = auth.provider
