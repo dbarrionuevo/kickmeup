@@ -11,7 +11,7 @@ feature "Facebook login" do
 
 		expect(page).to have_content("Signed in as #{current_user.email}")
 
-		expect(User.where(email: current_user.info.email)).to exist
+		expect(User.where(email: current_user.email)).to exist
 		expect(User.last.provider).to eql("facebook")
 		expect(User.last.uid).to eql(current_user.uid)
 		expect(current_path).to eql root_path

@@ -31,6 +31,7 @@ RSpec.configure do |config|
   config.include Rails.application.routes.url_helpers
   config.include Features::SessionHelpers, type: :feature
   config.include Features::IdeaHelpers, type: :feature
+  config.include FactoryGirl::Syntax::Methods
   config.order = "random"
 end
 
@@ -48,5 +49,5 @@ def load_facebook_auth_data(valid = true)
 end
 
 def current_user
-  OmniAuth.config.mock_auth[:facebook]
+  User.where(uid: OmniAuth.config.mock_auth[:facebook].uid).first
 end

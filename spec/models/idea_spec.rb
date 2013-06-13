@@ -2,10 +2,9 @@ require 'spec_helper'
 
 describe Idea do
   let(:idea) { Idea.create!(user_id: 123456, title: 'Existing Idea Title', description: 'Existing Idea description') }
-  
+
   def load_user_kicked
-    load_facebook_auth_data
-    idea.user_kicked = current_user
+    idea.user_kicked = create(:user)
   end
 
   describe "Validations" do
@@ -26,8 +25,8 @@ describe Idea do
       }
 
       it "creates kicked idea once for the user" do
-        expect{ 
-          idea.save! 
+        expect{
+          idea.save!
         }.to change{ idea.idea_kickups.count }.from(0).to(1)
 
         idea.kickup
@@ -47,7 +46,7 @@ describe Idea do
       it "returns self" do
         expect( idea.kickup ).to be_a(Idea)
       end
-    
+
     end
 
     context "with guest user" do
@@ -80,7 +79,7 @@ describe Idea do
     it "creates new idea_kickups record for the idea" do
       expect(idea.idea_kickups).to be_empty
 
-      expect{ 
+      expect{
         idea.build_idea_kickups
         idea.save!
       }.to change{ idea.idea_kickups.count }.by(1)

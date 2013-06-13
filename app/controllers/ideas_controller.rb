@@ -17,7 +17,7 @@ class IdeasController < ApplicationController
   end
 
   def create
-    @idea = Idea.new(idea_params.merge(user_id: current_user.uid))
+    @idea = current_user.ideas.new(idea_params)
 
     if idea.save
       redirect_to @idea, notice: 'Idea was successfully created.'
@@ -46,7 +46,7 @@ class IdeasController < ApplicationController
       redirect_to root_path, notice: 'You already kicked this idea'
       return
     end
-    
+
     if idea.kickup.save
       redirect_to root_path, notice: 'Idea was successfully kicked up'
     else

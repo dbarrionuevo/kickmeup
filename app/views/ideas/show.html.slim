@@ -9,7 +9,7 @@ p
   strong Description:
   = @idea.description
 
--if current_user && @idea.user_id == current_user.uid.to_i
+-if current_user.try( :authored_idea?, @idea )
   = link_to 'Edit ', edit_idea_path(@idea)
   = link_to 'Destroy ', @idea, method: :delete, data: { confirm: 'Are you sure?' }
 = link_to 'Back', ideas_path
