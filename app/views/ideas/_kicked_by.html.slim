@@ -1,5 +1,5 @@
-- if @idea_kickups.any?
-  h2 This idea was kicked by #{@idea_kickups.count} user
+- if idea_kickups.any?
+  h2 This idea was kicked by #{idea_kickups.count} user
   table
     thead
       tr
@@ -7,6 +7,6 @@
         th Date
         th Email
     tbody
-      = render @idea_kickups
+      = render idea_kickups
 - else
   h2 Be the first to kick up this idea!

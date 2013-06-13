@@ -7,7 +7,7 @@ class IdeasController < ApplicationController
   end
 
   def show
-    @idea_kickups = idea.idea_kickups
+    idea_kickups
   end
 
   def new
@@ -23,7 +23,7 @@ class IdeasController < ApplicationController
     if idea.save
       redirect_to @idea, notice: 'Idea was successfully created.'
     else
-      render action: 'new'
+      render :new
     end
   end
 
@@ -31,7 +31,7 @@ class IdeasController < ApplicationController
     if idea.update(idea_params)
       redirect_to @idea, notice: 'Idea was successfully updated.'
     else
-      render action: 'edit'
+      render :edit
     end
   end
 
@@ -59,6 +59,7 @@ class IdeasController < ApplicationController
     def idea
       @idea ||= Idea.find(params[:id])
     end
+    helper_method :idea
 
     def set_user_kicked
       idea.user_kicked = current_user
@@ -67,4 +68,9 @@ class IdeasController < ApplicationController
     def idea_params
       params.require(:idea).permit(:user_id, :title, :description)
     end
+
+    def idea_kickups
+      @idea_kickups = idea.idea_kickups
+    end
+    helper_method :idea_kickups
 end

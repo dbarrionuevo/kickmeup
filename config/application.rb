@@ -20,7 +20,7 @@ module Kickmeup
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.generators do |g|
-      g.test_framework :rspec,  :view_specs => false, :controller_specs => false, 
+      g.test_framework :rspec,  :view_specs => false, :controller_specs => false,
         :helper_specs => false, :routing_specs => false, :fixture => true,
         :fixture_replacement => "factory_girl"
     end
