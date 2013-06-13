@@ -8,15 +8,17 @@ table
     th Title
     th Description
     th
+    th
 
   - @ideas.each do |idea|
     tr
       td = idea.user_id
       td = link_to idea.title, idea
       td = idea.description
-      -if current_user
+      - if current_user
         td = link_to 'Kick this up!', kickup_idea_path(idea)
-
+      - if idea.idea_kickups.any?
+        td Kicked #{ pluralize(idea.idea_kickups.count, 'time') }
 br
 
 = link_to 'New Idea', new_idea_path

@@ -20,6 +20,9 @@ ActiveRecord::Schema.define(version: 20130612200809) do
     t.datetime "updated_at"
   end
 
+  add_index "idea_kickups", ["idea_id"], name: "index_idea_kickups_on_idea_id"
+  add_index "idea_kickups", ["user_id"], name: "index_idea_kickups_on_user_id"
+
   create_table "ideas", force: true do |t|
     t.integer  "user_id"
     t.string   "title"
@@ -28,6 +31,8 @@ ActiveRecord::Schema.define(version: 20130612200809) do
     t.datetime "updated_at"
     t.integer  "kickups",     default: 0
   end
+
+  add_index "ideas", ["user_id"], name: "index_ideas_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "provider"

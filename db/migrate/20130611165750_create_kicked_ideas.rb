@@ -6,5 +6,7 @@ class CreateKickedIdeas < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :kicked_ideas, :user_id
+    add_index :kicked_ideas, :idea_id
   end
 end

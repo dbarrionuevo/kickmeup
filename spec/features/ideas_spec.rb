@@ -148,29 +148,39 @@ feature "Destroy an idea" do
   end
 end
 
-feature "Listing users that kicked an idea" do
-  given!(:idea) { create(:idea) }
+feature "Listing kickups details" do
+  context "idea kicked by user" do
+    given!(:idea) { create(:idea, :with_kickups) }
 
-  context "idea was kicked by user" do
-    background {
-      sign_in
-      click_link "Kick this up!"
-    }
-    scenario "shows user that kicked" do
+    scenario "shows user name in the idea details page" do
       visit root_path
       click_link "#{idea.title}"
 
-      expect(page).to have_content("This idea was kicked by")
-      expect(page).to have_content("#{current_user.to_s}")
+      expect(page).to have_content("This idea was kicked by 1 user")
+      expect(page).to have_content("#{idea.kicked_by.first}")
     end
   end
 
-  context "idea was not kicked by user" do
-    scenario "shows a message" do
+  context "idea not kicked by user" do
+    given!(:idea) { create(:idea) }
+    scenario "shows a message in the idea details page" do
       visit root_path
       click_link "#{idea.title}"
 
       expect(page).to have_content "Be the first to kick up this idea!"
+    end
+  end
+end
+
+feature "Listing kickups count" do
+  context "idea kicked by user" do
+    given!(:idea) { create(:idea, :with_kickups) }
+
+    scenario "shows kickups count" do
+      visit root_path
+
+      expect(page).to have_content "Kicked 1 time"
+      expect(idea.kickups).to eq(1)
     end
   end
 end

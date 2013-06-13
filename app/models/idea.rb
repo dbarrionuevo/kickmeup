@@ -13,10 +13,7 @@ class Idea < ActiveRecord::Base
   end
 
   def kickup
-    if user_can_kickup?
-      build_idea_kickups
-      increment_kickups_count
-    end
+    build_idea_kickups if user_can_kickup?
     self
   end
 
@@ -30,10 +27,6 @@ class Idea < ActiveRecord::Base
 
   def build_idea_kickups
     idea_kickups.new(user_id: user_kicked.id)
-  end
-
-  def increment_kickups_count
-    self.kickups += 1
   end
 
 end

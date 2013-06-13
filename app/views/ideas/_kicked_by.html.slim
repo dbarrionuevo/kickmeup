@@ -1,11 +1,12 @@
 - if @idea_kickups.any?
-  h2 This idea was kicked by
+  h2 This idea was kicked by #{@idea_kickups.count} user
   table
     thead
       tr
         th User
         th Date
+        th Email
     tbody
       = render @idea_kickups
 - else
-  p Be the first to kick up this idea!
+  h2 Be the first to kick up this idea!
