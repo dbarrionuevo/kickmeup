@@ -29,4 +29,8 @@ class User < ActiveRecord::Base
     ideas.include?(idea)
   end
 
+  def has_kicked_ideas?
+    kicked_ideas.any?
+  end
+
 end

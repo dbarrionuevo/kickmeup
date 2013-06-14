@@ -1,1 +1,7 @@
-h2 Perfil de #{@user.name}
+h2 #{@user.name} - Profile
+
+- if @user.has_kicked_ideas?
+  h2 Your kicked ideas
+  = render @user.kicked_ideas
+- else
+  h2 You haven't kicked any ideas yet
