@@ -30,6 +30,7 @@ gem 'jbuilder', '~> 1.0.1'
 gem 'slim-rails'
 gem 'omniauth-facebook'
 gem 'friendly_id', :github => 'FriendlyId/friendly_id', :branch => 'rails4'
+gem "twitter-bootstrap-rails"
 
 group :doc do
   gem 'sdoc', require: false

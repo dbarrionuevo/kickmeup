@@ -1,4 +1,5 @@
 - if current_user
-  p Signed in as #{ link_to current_user.email, current_user } #{link_to "Sign out", signout_path}
+  li = link_to "Signed in as #{current_user.email}", current_user
+  li = link_to "Sign out", signout_path
 - else
-  = link_to "Sign in with Facebook", "/auth/facebook"
+  li = link_to "Sign in with Facebook", "/auth/facebook"

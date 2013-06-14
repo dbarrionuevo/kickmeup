@@ -1,6 +1,9 @@
-h1 Listing ideas
+.hero-unit
+  h2 = link_to "Share your ideas with the world!", new_idea_path
+  p Dou you have a great idea? Let the people know it!
+h1 Current Ideas
 
-table
+table.table
   tr
     th Author
     th Title
@@ -14,9 +17,9 @@ table
       td = link_to idea.title, idea
       td = idea.description
       - if current_user
-        td = link_to 'Kick this up!', kickup_idea_path(idea)
+        td = link_to 'Kick this up!', kickup_idea_path(idea), class: 'btn btn-danger'
       - if idea.idea_kickups.any?
         td Kicked #{ pluralize(idea.idea_kickups.count, 'time') }
 br
 
-= link_to 'New Idea', new_idea_path
+= link_to 'New Idea', new_idea_path, class: 'btn btn-primary'
