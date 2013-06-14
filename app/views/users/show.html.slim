@@ -1,5 +1,5 @@
 h2 Profile #{@user.name}
 = image_tag(@user.provider_image)
 
-= render 'ideas'
-= render 'kicked_ideas'
+= render 'ideas', user: @user
+= render 'kicked_ideas', user: @user

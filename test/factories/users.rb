@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :user do
+  factory :user, aliases: [:author] do
     provider "facebook"
     sequence(:uid) { |n| n }
     name "Dario Barrionuevo"

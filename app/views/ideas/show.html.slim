@@ -1,7 +1,7 @@
 h2 Details of #{@idea}
 p
   strong Author:
-  = @idea.user
+  = @idea.author
 p
   strong Title:
   = @idea.title
@@ -14,4 +14,4 @@ p
   = link_to 'Destroy ', @idea, method: :delete, data: { confirm: 'Are you sure?' }
 = link_to 'Back', ideas_path
 
-= render 'kicked_by'
+= render 'kicked_by', idea_kickups: @idea_kickups

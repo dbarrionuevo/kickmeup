@@ -42,7 +42,7 @@ end
 feature "Modify an idea" do
   background { sign_in }
   given!(:idea) { create(:idea) }
-  given!(:own_idea) { create(:idea, user: current_user) }
+  given!(:own_idea) { create(:idea, author: current_user) }
 
   scenario "user can modify his own idea" do
     visit root_path
@@ -91,23 +91,44 @@ feature "Listing existing ideas" do
 		click_link "#{idea.title}"
 		current_path.should eq idea_path(idea)
 	end
+
+  scenario "redirects with invalid idea" do
+    visit "/ideas/invalid"
+
+    expect(page).to have_content "Idea not found!"
+    expect(current_path).to eq root_path
+  end
 end
 
 feature "Kicking up an Idea" do
   given!(:idea) { create(:idea) }
 
-  scenario "logged user can kickup an idea only once" do
-    sign_in
-    click_link 'Kick this up!'
+  context "logged user" do
+    background { sign_in }
+    given!(:own_idea) { create(:idea, title: "My own idea", author: current_user) }
 
-    expect(page).to have_content 'Idea was successfully kicked up'
-    idea.reload.kickups.should eq 1
-    current_user.kicked_ideas.should include(idea)
+    scenario "can kickup an idea only once" do
+      click_link "#{idea.title}"
+      click_link "kickup this idea!"
 
-    click_link 'Kick this up!'
+      expect(page).to have_content 'Idea was successfully kicked up'
+      idea.reload.kickups.should eq 1
+      current_user.kicked_ideas.should include(idea)
 
-    expect(page).to have_content 'You already kicked this idea'
-    idea.reload.kickups.should eq 1
+      click_link "kickup this idea!"
+
+      expect(page).to have_content 'You already kicked this idea'
+      idea.reload.kickups.should eq 1
+    end
+
+    scenario "can't kickups his own idea" do
+      visit root_path
+      click_link "#{own_idea.title}"
+      click_link "kickup this idea!"
+
+      expect(page).to have_content "You can't kickup your own idea"
+      expect(idea.kickups).to be_zero
+    end
   end
 
   scenario "guest user can't kickup idea" do
@@ -120,7 +141,7 @@ feature "Destroy an idea" do
 
   context "logged user" do
     background{ sign_in }
-    given!(:own_idea) { create(:idea, user: current_user) }
+    given!(:own_idea) { create(:idea, author: current_user) }
 
     scenario "can destroy his own an idea" do
       visit root_path
@@ -167,7 +188,7 @@ feature "Listing kickups details" do
       visit root_path
       click_link "#{idea.title}"
 
-      expect(page).to have_content "Be the first to kick up this idea!"
+      expect(page).to have_content "Be the first to kickup this idea!"
     end
   end
 end

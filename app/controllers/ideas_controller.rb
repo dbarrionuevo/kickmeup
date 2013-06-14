@@ -7,7 +7,7 @@ class IdeasController < ApplicationController
   end
 
   def show
-    idea_kickups
+    @idea_kickups = idea.idea_kickups
   end
 
   def new
@@ -44,20 +44,29 @@ class IdeasController < ApplicationController
     set_user_kicked
 
     if idea.already_kicked_by_user?
-      redirect_to root_path, notice: 'You already kicked this idea'
+      redirect_to idea_url, notice: 'You already kicked this idea'
+      return
+    end
+
+    if current_user.author_of? idea
+      redirect_to root_path, alert: "You can't kickup your own idea"
       return
     end
 
     if idea.kickup.save
-      redirect_to root_path, notice: 'Idea was successfully kicked up'
+      redirect_to idea_url, notice: 'Idea was successfully kicked up'
     else
-      redirect_to root_path, alert: idea.errors.full_messages
+      redirect_to idea_url, alert: idea.errors.full_messages
     end
   end
 
   private
     def idea
-      @idea ||= Idea.find(params[:id])
+      begin
+        @idea ||= Idea.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        redirect_to root_url, alert: "Idea not found!"
+      end
     end
     helper_method :idea
 
@@ -68,9 +77,4 @@ class IdeasController < ApplicationController
     def idea_params
       params.require(:idea).permit(:user_id, :title, :description)
     end
-
-    def idea_kickups
-      @idea_kickups = idea.idea_kickups
-    end
-    helper_method :idea_kickups
 end
