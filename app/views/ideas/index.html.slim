@@ -2,7 +2,7 @@ h1 Listing ideas
 
 table
   tr
-    th User
+    th Author
     th Title
     th Description
     th
@@ -10,7 +10,7 @@ table
 
   - @ideas.each do |idea|
     tr
-      td = idea.user_id
+      td = link_to idea.author, idea.author
       td = link_to idea.title, idea
       td = idea.description
       - if current_user

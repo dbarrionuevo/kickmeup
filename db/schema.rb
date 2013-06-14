@@ -27,11 +27,13 @@ ActiveRecord::Schema.define(version: 20130612200809) do
     t.integer  "user_id"
     t.string   "title"
     t.string   "description"
+    t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "kickups",     default: 0
   end
 
+  add_index "ideas", ["slug"], name: "index_ideas_on_slug", unique: true
   add_index "ideas", ["user_id"], name: "index_ideas_on_user_id"
 
   create_table "users", force: true do |t|
@@ -40,6 +42,7 @@ ActiveRecord::Schema.define(version: 20130612200809) do
     t.string   "name"
     t.string   "nickname"
     t.string   "email"
+    t.string   "provider_image"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
     t.string   "slug"

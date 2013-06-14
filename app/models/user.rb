@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
 
   has_many :idea_kickups
   has_many :kicked_ideas, through: :idea_kickups, source: :idea
-  has_many :ideas
+  has_many :ideas, inverse_of: :author
 
   def to_s
     name
@@ -20,12 +20,13 @@ class User < ActiveRecord::Base
       user.name = auth.info.name
       user.nickname = auth.info.nickname
       user.email = auth.info.email
+      user.provider_image = auth.info.image
       user.oauth_token = auth.credentials.token
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
     end
   end
 
-  def authored_idea?(idea)
+  def author_of?(idea)
     ideas.include?(idea)
   end
 

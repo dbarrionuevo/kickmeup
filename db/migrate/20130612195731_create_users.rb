@@ -6,6 +6,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :name
       t.string :nickname
       t.string :email
+      t.string :provider_image
       t.string :oauth_token
       t.datetime :oauth_expires_at
       t.string :slug

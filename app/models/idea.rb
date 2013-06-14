@@ -1,10 +1,13 @@
 class Idea < ActiveRecord::Base
-	validates :user_id, :title, :description, presence: true
+  extend FriendlyId
+  friendly_id :title, use: :slugged
+
+  validates :user_id, :title, :description, presence: true
   validates :title, uniqueness: true
 
   has_many :idea_kickups
   has_many :kicked_by, through: :idea_kickups, source: :user
-  belongs_to :user
+  belongs_to :author, class_name: 'User', foreign_key: :user_id, inverse_of: :ideas
 
   attr_accessor :user_kicked
 

@@ -1,0 +1,5 @@
+- if @user.ideas.any?
+  h2 Authored ideas
+  = render @user.ideas
+- else
+  h2 No authored ideas yet
