@@ -44,12 +44,12 @@ class IdeasController < ApplicationController
     set_user_kicked
 
     if idea.already_kicked_by_user?
-      redirect_to idea_url, notice: 'You already kicked this idea'
+      redirect_to idea_url, alert: 'You already kicked this idea'
       return
     end
 
     if current_user.author_of? idea
-      redirect_to root_path, alert: "You can't kickup your own idea"
+      redirect_to idea_url, alert: "Sorry, you can't kickup your own idea"
       return
     end
 

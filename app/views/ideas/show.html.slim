@@ -1,21 +1,22 @@
-h2 Details of #{@idea}
-p
-  strong Author:
-  = @idea.author
-p
-  strong Title:
-  = @idea.title
-p
-  strong Description:
-  = @idea.description
+.hero-unit
+  h2 Details of #{@idea}
+  p
+    strong Author:
+    = @idea.author
+  p
+    strong Title:
+    = @idea.title
+  p
+    strong Description:
+    = @idea.description
 
-- if current_user.try( :author_of?, @idea )
-  .btn-toolbar
-    .btn-group
-      = link_to 'Edit ', edit_idea_path(@idea), class: 'btn'
-      = link_to 'Destroy ', @idea, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
-      = link_to 'Back', ideas_path, class: 'btn'
-- else
-  = link_to 'Back', ideas_path, class: 'btn'
+  - if current_user.try( :author_of?, @idea )
+    .btn-toolbar
+      .btn-group
+        = link_to 'Edit ', edit_idea_path(@idea), class: 'btn'
+        = link_to 'Destroy ', @idea, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+        = link_to 'Back', ideas_path, class: 'btn'
+  - else
+    = link_to 'Back', ideas_path, class: 'btn'
 
 = render 'kicked_by', idea_kickups: @idea_kickups

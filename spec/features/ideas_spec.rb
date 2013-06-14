@@ -115,7 +115,7 @@ feature "Kicking up an Idea" do
       idea.reload.kickups.should eq 1
       current_user.kicked_ideas.should include(idea)
 
-      click_link "kickup this idea!"
+      click_link "Kick it"
 
       expect(page).to have_content 'You already kicked this idea'
       idea.reload.kickups.should eq 1
@@ -126,7 +126,7 @@ feature "Kicking up an Idea" do
       click_link "#{own_idea.title}"
       click_link "kickup this idea!"
 
-      expect(page).to have_content "You can't kickup your own idea"
+      expect(page).to have_content "Sorry, you can't kickup your own idea"
       expect(idea.kickups).to be_zero
     end
   end

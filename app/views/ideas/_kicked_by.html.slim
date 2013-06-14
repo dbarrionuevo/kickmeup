@@ -1,12 +1,10 @@
 - if idea_kickups.any?
-  h2 This idea was kicked by #{ idea_kickups.count } user
-  p = link_to "kickup this idea!", kickup_idea_path(idea)
-  table
+  h3 This idea was kicked by #{ idea_kickups.count } user. #{ link_to "Kick it", kickup_idea_path(idea) } you too!
+  table.table
     thead
       tr
-        th User
-        th Date
-        th Email
+        th Kicked by
+        th When?
     tbody
       = render idea_kickups
 - else

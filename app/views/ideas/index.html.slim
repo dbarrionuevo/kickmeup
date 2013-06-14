@@ -9,17 +9,17 @@ table.table
     th Title
     th Description
     th
-    th
 
   - @ideas.each do |idea|
     tr
       td = link_to idea.author, idea.author
       td = link_to idea.title, idea
       td = idea.description
-      - if current_user
-        td = link_to 'Kick this up!', kickup_idea_path(idea), class: 'btn btn-danger'
-      - if idea.idea_kickups.any?
-        td Kicked #{ pluralize(idea.idea_kickups.count, 'time') }
+      td
+        - if current_user
+          = link_to 'Kick this up!', kickup_idea_path(idea), class: 'btn btn-danger'
+        - unless idea.kickups.zero?
+          | &nbsp;Kicked #{ pluralize(idea.kickups, 'time') }
 br
 
 = link_to 'New Idea', new_idea_path, class: 'btn btn-primary'
