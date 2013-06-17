@@ -35,14 +35,15 @@ RSpec.configure do |config|
   config.order = "random"
 end
 
-def load_facebook_auth_data(valid = true)
-  user              = FactoryGirl.build(:user)
+def load_facebook_auth_data( opts={ valid: true, user: {} } )
+  user              = FactoryGirl.build(:user, opts[:user])
 
   auth              = Hashie::Mash.new
   auth.provider     = user.provider
   auth.uid          = user.uid
-  auth.info         = { email: valid ? user.email : "", name: "Dario Barrionuevo", nickname: "dbarri" }
+  auth.info         = { email: opts[:valid] ? user.email : "", name: user.name, nickname: user.nickname }
   auth.credentials  = { token: "0909090909", expires_at: 1346878866 }
+  auth.extra        = { username: user.nickname }
 
   OmniAuth.config.mock_auth[:facebook] = auth
   auth

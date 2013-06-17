@@ -1,28 +1,49 @@
 require 'spec_helper'
 
 feature "Facebook login" do
+	context "successfully" do
+		scenario "sign in with facebook account" do
+			visit root_path
 
-	scenario "successfully sign in with facebook account" do
-		visit root_path
+			load_facebook_auth_data
 
-    load_facebook_auth_data
+			click_link "Sign in with Facebook"
 
-    click_link "Sign in with Facebook"
+			expect(page).to have_content("Signed in as #{current_user.email}")
 
-		expect(page).to have_content("Signed in as #{current_user.email}")
+			expect(User.where(email: current_user.email)).to exist
+			expect(User.last.provider).to eql("facebook")
+			expect(User.last.uid).to eql(current_user.uid)
+			expect(current_path).to eql root_path
+		end
 
-		expect(User.where(email: current_user.email)).to exist
-		expect(User.last.provider).to eql("facebook")
-		expect(User.last.uid).to eql(current_user.uid)
-		expect(current_path).to eql root_path
+		scenario "creates user slug with name when nickname is not present" do
+			load_facebook_auth_data( valid:true, user: { name: 'John Doe', nickname: nil } )
+
+			visit root_path
+			click_link "Sign in with Facebook"
+
+			expect( User.where(slug: 'john-doe') ).to exist
+		end
+
+		scenario "creates user slug with nikname when present" do
+			load_facebook_auth_data( valid:true, user: { name: 'John Doe', nickname: 'jdoe-1' } )
+
+			visit root_path
+			click_link "Sign in with Facebook"
+
+			expect( User.where(slug: 'jdoe-1') ).to exist
+			expect( User.where(slug: 'john-doe') ).to_not exist
+		end
 	end
+
 
 	scenario "fail to sign in with Facebook account" do
 		visit root_path
 
-    load_facebook_auth_data(false)
+		load_facebook_auth_data(valid: false)
 
-    click_link "Sign in with Facebook"
+		click_link "Sign in with Facebook"
 
 		expect(User.count).to eq(0)
 	end

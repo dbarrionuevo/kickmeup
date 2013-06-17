@@ -1,5 +1,11 @@
 Kickmeup::Application.routes.draw do
-  resources :users, only: [:show]
+  resources :users, only: [:show] do
+    member do
+      get 'select_friends'
+      post 'invite_friends'
+    end
+  end
+
   resources :ideas do
     member do
       get 'kickup'

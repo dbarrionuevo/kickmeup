@@ -31,6 +31,7 @@ gem 'slim-rails'
 gem 'omniauth-facebook'
 gem 'friendly_id', :github => 'FriendlyId/friendly_id', :branch => 'rails4'
 gem "twitter-bootstrap-rails"
+gem 'koala'
 
 group :doc do
   gem 'sdoc', require: false

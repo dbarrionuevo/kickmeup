@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   has_many :kicked_ideas, through: :idea_kickups, source: :idea
   has_many :ideas, inverse_of: :author
 
+  include User::Facebook
+
   def to_s
     name
   end
@@ -18,7 +20,7 @@ class User < ActiveRecord::Base
       user.provider = auth.provider
       user.uid = auth.uid
       user.name = auth.info.name
-      user.nickname = auth.info.nickname
+      user.nickname = auth.info.nickname || auth.extra.username || auth.info.name
       user.email = auth.info.email
       user.provider_image = auth.info.image
       user.oauth_token = auth.credentials.token
