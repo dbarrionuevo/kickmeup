@@ -49,7 +49,7 @@ describe User do
       end
 
       describe "#facebook" do
-        it "initialize Koaka gem" do
+        it "initialize Koala gem" do
           user.facebook
         end
       end
