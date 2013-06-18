@@ -6,8 +6,4 @@ class IdeaKickup < ActiveRecord::Base
   def increment_idea_kickups
     idea.update_attribute(:kickups, idea.kickups+1)
   end
-
-  def user_email
-    user.email
-  end
 end

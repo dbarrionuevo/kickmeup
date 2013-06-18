@@ -18,23 +18,45 @@ describe User do
   describe "#has_kicked_ideas" do
   end
 
-  describe "facebook" do
-    let(:friends) do
-      { "name" => "Alexander Bond", "username" => "alexbond", "id" => "1252345" }
+  describe "Facebook Integration" do
+    let(:recipients) { ["recip1@facebook.com", "recip2@facebook.com"] }
+    let(:invites) { {"recip1" => 1, "recip2" => 1} }
+
+    describe "#recipients" do
+      it "returns an email collection with the format username@facebook.com" do
+        expect( user.recipients(invites) ).to match_array recipients
+      end
     end
 
-    before do
-      @graph = Koala::Facebook::API
-      @graph.should_receive(:new).with(user.oauth_token).and_return(Koala::Facebook::API)
+    context "Graph API" do
+
+      let(:friends) do
+        [
+          { "name" => "Alexander Bond", "username" => "alexbond", "id" => "1252345" },
+          { "name" => "Alexander Bond", "username" => "alexbond", "id" => "1252345" }
+        ]
+      end
+
+      before do
+        @graph = Koala::Facebook::API
+        @graph.should_receive(:new).with(user.oauth_token).and_return(Koala::Facebook::API)
+      end
+
+      describe "#facebook" do
+        it "initialize Koaka gem" do
+          user.facebook
+        end
+      end
+
+      describe "#friendships" do
+        it "returns a collection with current user's friendships" do
+          @graph.should_receive( :fql_query ).and_return(friends)
+
+          expect( user.friendships ).to eq friends
+        end
+      end
+
     end
 
-    it "#facebook" do
-      user.facebook
-    end
-
-    it "#friendships" do
-      @graph.should_receive( :fql_query ).and_return(friends)
-      expect( user.friendships ).to eq friends
-    end
   end
 end

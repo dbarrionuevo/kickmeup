@@ -2,7 +2,7 @@
   ul.thumbnails
   - @friendships.each do |friendship|
     li.span3
-      = check_box_tag "uid[#{friendship["uid"]}]", friendship["username"]
+      = check_box_tag "invites[#{friendship["username"]}]"
       = image_tag friendship["pic_square"]
       p = friendship["name"]
   = submit_tag "Invite"

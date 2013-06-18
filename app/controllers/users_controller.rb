@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   end
 
   def invite_friends
-
+    @recipients = current_user.recipients(params[:invites])
   end
 
   private
