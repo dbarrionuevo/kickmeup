@@ -54,6 +54,7 @@ class IdeasController < ApplicationController
     end
 
     if idea.kickup.save
+      #current_user.facebook.put_wall_post("I kicked up this idea at kickmeup: #{idea.title}")
       redirect_to idea_url, notice: 'Idea was successfully kicked up'
     else
       redirect_to idea_url, alert: idea.errors.full_messages

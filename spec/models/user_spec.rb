@@ -19,8 +19,14 @@ describe User do
   end
 
   describe "Facebook Integration" do
-    let(:recipients) { ["recip1@facebook.com", "recip2@facebook.com"] }
-    let(:invites) { {"recip1" => 1, "recip2" => 1} }
+    let(:recipients) { ["recip1@facebook.com", "recip2@facebook.com", "102032@facebook.com"] }
+    let(:invites) {
+      {
+        "102030" => "recip1",
+        "102031" => "recip2",
+        "102032" => ""
+      }
+    }
 
     describe "#recipients" do
       it "returns an email collection with the format username@facebook.com" do

@@ -129,6 +129,11 @@ feature "Kicking up an Idea" do
       expect(page).to have_content "Sorry, you can't kickup your own idea"
       expect(idea.kickups).to be_zero
     end
+
+    scenario "can un-kickup a kicked up idea" do
+      pending
+    end
+
   end
 
   scenario "guest user can't kickup idea" do

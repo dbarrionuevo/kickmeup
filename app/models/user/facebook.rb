@@ -6,12 +6,17 @@ class User
     end
 
     def friendships
-      fql = "SELECT uid, name, username, pic_square FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me() limit 50)"
+      fql = %q{
+        SELECT uid, name, username, pic_square
+          FROM  user
+          WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me() )
+          ORDER BY name LIMIT 150
+      }
       @friendships ||= facebook.fql_query(fql)
    end
 
    def recipients(invites)
-      invites.keys.map{ |invite| "#{invite}@facebook.com" }
+      invites.map{ |uid, username| "#{username.present? ? username : uid}@facebook.com" }
    end
 
  end
