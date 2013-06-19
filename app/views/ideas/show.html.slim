@@ -1,11 +1,8 @@
 .hero-unit
   h2 Details of #{@idea}
   p
-    strong Author:
-    = @idea.author
-  p
-    strong Title:
-    = @idea.title
+    strong by #{@idea.author}
+
   p
     strong Description:
     = @idea.description

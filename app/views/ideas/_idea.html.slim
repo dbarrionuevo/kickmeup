@@ -9,6 +9,6 @@
     td = idea.description
     td
       - if current_user
-        = link_to 'Kick this up!', kickup_idea_path(idea), class: 'btn btn-danger'
+        = link_to 'Kick this up!', kickup_idea_path(idea), class: 'btn btn-danger', disable_with: 'Sending...'
       - unless idea.kickups.zero?
         | &nbsp;Kicked #{ pluralize(idea.kickups, 'time') }

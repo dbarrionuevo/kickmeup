@@ -26,7 +26,7 @@ class Facebook
   end
 
   def publish_idea_post_facebook(idea)
-    text = "I kicked up this idea at kickmeup: #{idea.title} by #{idea.author}"
+    text = "I kicked up this idea at kickmeup: #{idea.title} by #{idea.author} http://www.kickme.up"
     @graph.put_wall_post(text)
   end
 
