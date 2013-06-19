@@ -9,6 +9,7 @@ Kickmeup::Application.routes.draw do
   resources :ideas do
     member do
       get 'kickup'
+      get 'unkick'
     end
   end
 

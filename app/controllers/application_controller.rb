@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   def graph
-    @graph ||= Facebook.new(current_user)
+    @graph ||= Facebook.new(current_user, view_context)
   end
   helper_method :graph
 end

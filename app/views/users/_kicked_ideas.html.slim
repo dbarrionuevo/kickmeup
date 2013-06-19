@@ -1,5 +1,11 @@
 - if user.has_kicked_ideas?
   h2 Kicked ideas
-  = render user.kicked_ideas
+  table.table
+    thead
+      tr
+        th
+        th
+    tbody
+      = render user.kicked_ideas, format: :user_profile
 - else
   h2 No kicked ideas yet

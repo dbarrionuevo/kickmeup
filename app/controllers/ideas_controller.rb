@@ -1,5 +1,5 @@
 class IdeasController < ApplicationController
-  before_action :idea, only: [:show, :edit, :update, :destroy, :kickup]
+  before_action :idea, only: [:show, :edit, :update, :destroy, :kickup, :unkickup]
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
@@ -41,7 +41,7 @@ class IdeasController < ApplicationController
   end
 
   def kickup
-    set_user_kicked
+    set_current_user
 
     if idea.already_kicked_by_user?
       redirect_to idea_url, alert: 'You already kicked this idea'
@@ -54,11 +54,16 @@ class IdeasController < ApplicationController
     end
 
     if idea.kickup.save
-      #current_user.facebook.put_wall_post("I kicked up this idea at kickmeup: #{idea.title}")
+      graph.publish_idea_post_facebook(idea)
       redirect_to idea_url, notice: 'Idea was successfully kicked up'
     else
       redirect_to idea_url, alert: idea.errors.full_messages
     end
+  end
+
+  def unkick
+    idea.idea_kickups.where(user_id: current_user.id).first.destroy
+    redirect_to current_user, notice: "Idea was successfully unckiked"
   end
 
   private
@@ -71,8 +76,8 @@ class IdeasController < ApplicationController
     end
     helper_method :idea
 
-    def set_user_kicked
-      idea.user_kicked = current_user
+    def set_current_user
+      idea.current_user = current_user
     end
 
     def idea_params

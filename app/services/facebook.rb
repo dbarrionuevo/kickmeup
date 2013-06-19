@@ -1,8 +1,9 @@
 class Facebook
 
-  def initialize(user)
+  def initialize(user, view)
     @user = user
     @graph ||= Koala::Facebook::API.new(user.oauth_token)
+    @view = view
   end
 
   def friendships
@@ -22,6 +23,11 @@ class Facebook
   def send_invites(invites)
     recip = recipients(invites)
     FacebookMailer.invite_friends( @user, recip ).deliver
+  end
+
+  def publish_idea_post_facebook(idea)
+    text = "I kicked up this idea at kickmeup: #{idea.title} by #{idea.author}"
+    @graph.put_wall_post(text)
   end
 
 end

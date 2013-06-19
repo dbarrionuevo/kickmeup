@@ -1,2 +1,14 @@
-ul
-  li = link_to idea.title, idea
+- if format == :user_profile
+  tr
+    td = link_to idea.title, idea
+    td = link_to "Unkick", unkick_idea_path(idea), class: 'btn btn-danger'
+- else
+  tr
+    td = link_to idea.author, idea.author
+    td = link_to idea.title, idea
+    td = idea.description
+    td
+      - if current_user
+        = link_to 'Kick this up!', kickup_idea_path(idea), class: 'btn btn-danger'
+      - unless idea.kickups.zero?
+        | &nbsp;Kicked #{ pluralize(idea.kickups, 'time') }

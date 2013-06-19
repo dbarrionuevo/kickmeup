@@ -9,7 +9,7 @@ class Idea < ActiveRecord::Base
   has_many :kicked_by, through: :idea_kickups, source: :user
   belongs_to :author, class_name: 'User', foreign_key: :user_id, inverse_of: :ideas
 
-  attr_accessor :user_kicked
+  attr_accessor :current_user
 
   def to_s
     title
@@ -21,15 +21,15 @@ class Idea < ActiveRecord::Base
   end
 
   def user_can_kickup?
-    user_kicked && !already_kicked_by_user?
+    current_user && !already_kicked_by_user?
   end
 
-  def already_kicked_by_user?
-    kicked_by.include?(user_kicked)
+  def already_kicked_by_user?( user = nil )
+    kicked_by.include?(user || current_user)
   end
 
   def build_idea_kickups
-    idea_kickups.new(user_id: user_kicked.id)
+    idea_kickups.new(user_id: current_user.id)
   end
 
 end

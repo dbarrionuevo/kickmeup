@@ -12,7 +12,7 @@ describe Facebook do
   before do
     load_facebook_auth_data( save_user: true )
     stub_graph
- end
+  end
 
   context "when username is public" do
     let(:recipients) { ["recip1@facebook.com", "recip2@facebook.com"] }
