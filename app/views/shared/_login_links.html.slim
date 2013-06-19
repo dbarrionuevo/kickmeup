@@ -1,6 +1,7 @@
 - if current_user
-  li = link_to "Signed in as #{current_user.email}", current_user
+  li = link_to "Signed in as #{current_user}", current_user
+  li = link_to "Profile", current_user
   li = link_to "Sign out", signout_path
-  li = link_to "Invite your friends!", select_friends_user_path(current_user), class: 'btn'
+  li = link_to "Invite your friends!", select_friends_user_path(current_user), class: 'btn', data: { disable_with: 'Loading Friends...' }
 - else
   li = link_to "Sign in with Facebook", "/auth/facebook"

@@ -5,6 +5,7 @@ feature "User Profile" do
     given!(:idea) { create(:idea) }
     background {
       sign_in
+      stub_graph
       click_link "Kick this up!"
     }
 
@@ -28,25 +29,31 @@ end
 
 feature "Invite Friends" do
   given!(:friends) do
-    [
-      { "name" => "Alexander Bond", "username" => "alexbond", "id" => "1252345" },
-      { "name" => "James Bond", "username" => "jamesbond", "id" => "1252349" }
-    ]
+  [
+    {"uid"=>102030, "name"=>"Betty Amfacffefcec", "username"=>"", "pic_square"=>""},
+    {"uid"=>102031, "name"=>"Jennifer Sharpewitz", "username"=>"", "pic_square"=>""}
+  ]
   end
 
   context "logged user" do
     background do
       sign_in
-      stub_graph
+      visit root_path
+      stub_graph(with_friends: true)
     end
 
     scenario "can see a list of his frienships" do
-      visit root_path
       click_link "Invite your friends!"
 
       expect(page).to have_content("#{friends[0]['name']}")
       expect(page).to have_content("#{friends[1]['name']}")
       expect(page).to have_button("Invite")
+    end
+
+    scenario "can invite friends" do
+      click_link "Invite your friends!"
+      check "recipients_#{friends.first['uid']}"
+      click_button "Invite"
     end
   end
 

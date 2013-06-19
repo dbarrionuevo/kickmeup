@@ -11,7 +11,7 @@ describe Facebook do
 
   before do
     load_facebook_auth_data( save_user: true )
-    stub_graph
+    stub_graph(with_friends: true)
   end
 
   context "when username is public" do

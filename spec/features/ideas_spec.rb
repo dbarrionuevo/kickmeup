@@ -104,7 +104,10 @@ feature "Kicking up an Idea" do
   given!(:idea) { create(:idea) }
 
   context "logged user" do
-    background { sign_in }
+    background {
+      sign_in
+      stub_graph
+    }
     given!(:own_idea) { create(:idea, title: "My own idea", author: current_user) }
 
     scenario "can kickup an idea only once" do
@@ -115,7 +118,7 @@ feature "Kicking up an Idea" do
       idea.reload.kickups.should eq 1
       current_user.kicked_ideas.should include(idea)
 
-      click_link "Kick it"
+      visit kickup_idea_path(idea)
 
       expect(page).to have_content 'You already kicked this idea'
       idea.reload.kickups.should eq 1
@@ -130,8 +133,15 @@ feature "Kicking up an Idea" do
       expect(idea.kickups).to be_zero
     end
 
-    scenario "can un-kickup a kicked up idea" do
-      pending
+    scenario "can unkick an idea" do
+      click_link "#{idea.title}"
+      click_link "kickup this idea!"
+
+      click_link "Profile"
+      click_link "Unkick"
+
+      expect(page).to have_content("Idea was successfully unkicked")
+      expect( idea.kickups ).to be_zero
     end
 
   end

@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Idea do
   let(:idea) { Idea.create!(user_id: 123456, title: 'Existing Idea Title', description: 'Existing Idea description') }
 
-  def load_user_kicked
-    idea.user_kicked = create(:user)
+  def load_current_user
+    idea.current_user = create(:user)
   end
 
   describe "Validations" do
@@ -20,7 +20,7 @@ describe Idea do
   describe "#kickup" do
     context "with logged user" do
       before {
-        load_user_kicked
+        load_current_user
         idea.kickup
       }
 
@@ -59,7 +59,7 @@ describe Idea do
   end
 
   describe "#already_kicked_by_user?" do
-    before { load_user_kicked }
+    before { load_current_user }
 
     it "returns true when user already kiked an idea" do
       idea.kickup
@@ -74,7 +74,7 @@ describe Idea do
   end
 
   describe "#build_kicked_idea" do
-    before { load_user_kicked }
+    before { load_current_user }
 
     it "creates new idea_kickups record for the idea" do
       expect(idea.idea_kickups).to be_empty

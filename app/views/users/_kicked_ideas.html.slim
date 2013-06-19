@@ -6,6 +6,9 @@
         th
         th
     tbody
-      = render user.kicked_ideas, format: :user_profile
+      - user.kicked_ideas.each do |idea|
+        tr
+          td = link_to idea.title, idea
+          td = link_to "Unkick", unkick_idea_path(idea), class: 'btn btn-danger'
 - else
   h2 No kicked ideas yet

@@ -9,7 +9,7 @@ feature "Facebook login" do
 
 			click_link "Sign in with Facebook"
 
-			expect(page).to have_content("Signed in as #{current_user.email}")
+			expect(page).to have_content("Signed in as #{current_user}")
 
 			expect(User.where(email: current_user.email)).to exist
 			expect(User.last.provider).to eql("facebook")

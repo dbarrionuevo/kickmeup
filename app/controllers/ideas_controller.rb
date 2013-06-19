@@ -63,7 +63,7 @@ class IdeasController < ApplicationController
 
   def unkick
     idea.idea_kickups.where(user_id: current_user.id).first.destroy
-    redirect_to current_user, notice: "Idea was successfully unckiked"
+    redirect_to current_user, notice: "Idea was successfully unkicked"
   end
 
   private

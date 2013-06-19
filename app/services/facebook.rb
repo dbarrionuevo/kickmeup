@@ -1,9 +1,8 @@
 class Facebook
 
-  def initialize(user, view)
+  def initialize(user)
     @user = user
     @graph ||= Koala::Facebook::API.new(user.oauth_token)
-    @view = view
   end
 
   def friendships
