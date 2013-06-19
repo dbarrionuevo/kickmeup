@@ -1,9 +1,9 @@
 h3 Select friends to invite
-= form_tag invite_friends_user_path(@user)
+= form_tag send_invites_user_path(@user)
   ul.thumbnails
   - @friendships.each do |friendship|
     li.span2
-      = check_box_tag "invites[#{friendship["uid"]}]", "#{friendship["username"]}"
+      = check_box_tag "recipients[#{friendship["uid"]}]", "#{friendship["username"]}"
       = image_tag friendship["pic_square"]
       p = friendship["name"]
   = submit_tag "Invite"

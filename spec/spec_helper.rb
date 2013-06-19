@@ -37,6 +37,7 @@ end
 
 def load_facebook_auth_data( opts={ valid: true, user: {} } )
   user              = FactoryGirl.build(:user, opts[:user])
+  user.save if opts[:save_user]
 
   auth              = Hashie::Mash.new
   auth.provider     = user.provider

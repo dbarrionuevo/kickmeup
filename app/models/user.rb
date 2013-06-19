@@ -9,8 +9,6 @@ class User < ActiveRecord::Base
   has_many :kicked_ideas, through: :idea_kickups, source: :idea
   has_many :ideas, inverse_of: :author
 
-  include User::Facebook
-
   def to_s
     name
   end

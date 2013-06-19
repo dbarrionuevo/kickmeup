@@ -5,12 +5,11 @@ class UsersController < ApplicationController
   end
 
   def select_friends
-    @friendships = current_user.friendships
+    @friendships = graph.friendships
   end
 
-  def invite_friends
-    recipients = current_user.recipients(params[:invites])
-    FacebookMailer.invite_friends( current_user, recipients ).deliver
+  def send_invites
+    graph.send_invites(params[:recipients])
     redirect_to select_friends_user_url(current_user), notice: 'Friends invites sended!'
   end
 

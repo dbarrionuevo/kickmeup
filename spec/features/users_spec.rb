@@ -36,16 +36,15 @@ feature "Invite Friends" do
 
   background do
     sign_in
-    graph = Koala::Facebook::API
-    graph.should_receive(:new).with(current_user.oauth_token).and_return(Koala::Facebook::API)
-    graph.should_receive( :fql_query ).and_return(friends)
+    stub_graph
   end
 
   scenario "shows a list of user frienships" do
     visit root_path
     click_link "Invite your friends!"
 
-    expect(page).to have_content("#{friends.first['name']}")
+    expect(page).to have_content("#{friends[0]['name']}")
+    expect(page).to have_content("#{friends[1]['name']}")
     expect(page).to have_button("Invite")
   end
 

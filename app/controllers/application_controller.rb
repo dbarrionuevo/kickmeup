@@ -11,4 +11,9 @@ class ApplicationController < ActionController::Base
   def authenticate_user!
   	redirect_to root_path, alert: 'Please sign in' unless current_user
   end
+
+  def graph
+    @graph ||= Facebook.new(current_user)
+  end
+  helper_method :graph
 end
