@@ -20,7 +20,7 @@ class Facebook
   end
 
   def send_invites(invites)
-    recip = graph.recipients(invites)
+    recip = recipients(invites)
     FacebookMailer.invite_friends( @user, recip ).deliver
   end
 

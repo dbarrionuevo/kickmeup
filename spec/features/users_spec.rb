@@ -34,18 +34,26 @@ feature "Invite Friends" do
     ]
   end
 
-  background do
-    sign_in
-    stub_graph
+  context "logged user" do
+    background do
+      sign_in
+      stub_graph
+    end
+
+    scenario "can see a list of his frienships" do
+      visit root_path
+      click_link "Invite your friends!"
+
+      expect(page).to have_content("#{friends[0]['name']}")
+      expect(page).to have_content("#{friends[1]['name']}")
+      expect(page).to have_button("Invite")
+    end
   end
 
-  scenario "shows a list of user frienships" do
-    visit root_path
-    click_link "Invite your friends!"
-
-    expect(page).to have_content("#{friends[0]['name']}")
-    expect(page).to have_content("#{friends[1]['name']}")
-    expect(page).to have_button("Invite")
+  context "guest user" do
+    scenario "can't access friends list" do
+      expect(page).to_not have_link("Invite your friends!")
+    end
   end
 
 end

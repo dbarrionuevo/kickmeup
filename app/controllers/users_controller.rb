@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :user
+  before_action :authenticate_user!, only: [:select_friends, :send_invites]
 
   def show
   end
