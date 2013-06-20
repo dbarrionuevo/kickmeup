@@ -17,3 +17,4 @@ $ cd kickmeup
 $ bundle
 $ rake db:migrate db:test:prepare
 ```
+a new line
